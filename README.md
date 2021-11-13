@@ -1,16 +1,27 @@
 # Spherical Cow Desktop Pet
 
-### Using pyinstaller-3.7 to create an executable:
-Create and activate a virtual environment (in packageEnv/):
+### Starting the program:
+Double click SphericalCowMac in a mac computer or double click SphericalCowWindows in a windows computer to start the program. To run it with python, go to package/ and do:
+
+    python3 desktopPet.py
+
+### Other programs:
+- QMovieExp.py: runs test.gif with PyQt5
+- pngTrans.py: make the background white region of a .png file transparent
+- pngToGif.py: combines a list of .png files to a .gif file
+
+### Using pyinstaller-3.7 to package the program:
+Create and activate a virtual environment (was done in packageEnv/):
   
     virtualenv sphericalCowEnv
     source sphericalCowEnv/bin/activate
 Installed only PyQt5:
 
     pip3 install PyQt5
-Use the pyinstaller to package the file (note: to convert png to icns, specific image dimension is required):
+Use the pyinstaller to package the file (note: to convert a .png file to a .ico/.icns, specific image dimension is required. They were done using online tools):
 
-    pyinstaller-3.7 --onefile --windowed --icon=cowAIcon.icns --name SphericalCow desktopPetExe.py
+    pyinstaller-3.7 --onefile --windowed --icon=cowAIcon.ico --name SphericalCow desktopPetMacApp.py (in mac)
+    pyinstaller-3.7 --onefile --windowed --icon=cowAIcon.icns --name SphericalCow desktopPetWinExe.py (in windows)
 Modify SphericalCow.spec following the SphericalCowExample.spec, then do,
 
     pyinstaller-3.7 SphericalCow.spec
