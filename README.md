@@ -12,7 +12,7 @@ Double click SphericalCowMac in a mac computer or double click SphericalCowWindo
 - pngTrans.py: make the background white region of a .png file transparent
 - pngToGif.py: combines a list of .png files to a .gif file
 
-### Using pyinstaller-3.7 to package the program:
+### Using pyinstaller to package the program:
 Create and activate a virtual environment (was done in packageEnv/):
   
     virtualenv sphericalCowEnv
@@ -22,14 +22,14 @@ Installed only PyQt5:
     pip3 install PyQt5
 Use the pyinstaller to package the file (note: to convert a .png file to a .ico/.icns, specific image dimension is required. They were done using online tools):
 
-    pyinstaller-3.7 --onefile --windowed --icon=cowAIcon.ico --name SphericalCow desktopPetMacApp.py (in mac)
-    pyinstaller-3.7 --onefile --windowed --icon=cowAIcon.icns --name SphericalCow desktopPetWinExe.py (in windows)
+    pyinstaller --onefile --windowed --icon=cowAIcon.ico --name SphericalCow desktopPetMacApp.py (in mac)
+    pyinstaller --onefile --windowed --icon=cowAIcon.icns --name SphericalCow desktopPetWinExe.py (in windows)
 Modify SphericalCow.spec following the SphericalCowExample.spec, then do,
 
-    pyinstaller-3.7 SphericalCow.spec
+    pyinstaller SphericalCow.spec
 Note that the exePath() function in the desktopPetExe.py is essential for the executable to find the right path. For debuging run:
 
-    ./SphericalCow in terminal to debug.
+    ./dist/SphericalCow in terminal to debug.
 Deactivate the virtual environment
 
     deactivate
