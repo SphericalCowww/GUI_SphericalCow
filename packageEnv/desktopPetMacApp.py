@@ -2,15 +2,24 @@ import sys, os
 from random import random
 
 from PyQt5.QtCore import Qt, QSize, QByteArray, QTimer, QRect
-from PyQt5.QtWidgets import QApplication, QWidget, QDesktopWidget, QLabel, QVBoxLayout, QPushButton
+from PyQt5.QtWidgets import QApplication, QWidget, QDesktopWidget
+from PyQt5.QtWidgets import QLabel, QVBoxLayout, QPushButton
 from PyQt5.QtGui import QMovie
 
+##############################################################################
+RESOURCEDIR = os.path.dirname(sys.argv[0]);
+if "MacOS" in RESOURCEDIR:
+    RESOURCEDIR = RESOURCEDIR.replace("MacOS", "Resources");
+else:
+    RESOURCEDIR += "/SphericalCow.app/Contents/Resources";
+if os.path.exists(RESOURCEDIR+"/figures") == False:
+    raise FileNotFoundError("Please copy figures/ under:\n  "+RESOURCEDIR)
 class mainFrame(QWidget):
     def __init__(self, parent=None):
         super(mainFrame, self).__init__(parent);
         self.setWindowFlags(Qt.FramelessWindowHint);
         self.setAttribute(Qt.WA_TranslucentBackground);
-        self.cowSize = QSize(200*1.21, 200);
+        self.cowSize = QSize(int(200*1.21), int(200));
         self.setFixedSize(self.cowSize*1.2);
         self.screenGeo = QDesktopWidget().screenGeometry();
         self.availGeo  = QDesktopWidget().availableGeometry();
@@ -18,7 +27,7 @@ class mainFrame(QWidget):
         randH = random()*0.4 + 0.3;
         self.currLoc = [self.screenGeo.width()*randW, \
                         self.screenGeo.height()*randH];
-        self.move(self.currLoc[0], self.currLoc[1]);
+        self.move(int(self.currLoc[0]), int(self.currLoc[1]));
         self.keyPool = [Qt.Key_Left, Qt.Key_Right,
                         Qt.Key_Up, Qt.Key_Down,
                         Qt.Key_S, Qt.Key_P,
@@ -95,10 +104,8 @@ class mainFrame(QWidget):
             for action, prob in nextAction.items():
                 norm = norm + prob;
             if abs(norm - 1.0) > pow(10, -6):
-                print("BUG: nextAct probabilities are not entered correctly for");
-                print(name);
-                self.close();
-                sys.exit(0);
+                raise AssertionError("incorrect nextAct probabilities for\n"+\
+                                     name);
         self.initUI();
     def initUI(self):
         gifPath = os.path.dirname(sys.argv[0]).replace("MacOS", "Resources")\
@@ -129,13 +136,12 @@ class mainFrame(QWidget):
         self.show();
     def runCow(self):
         self.cow.stop();
-        resourceDir = os.path.dirname(sys.argv[0]).replace("MacOS", "Resources");
-        gifPath = resourceDir + "/figures/cow" + self.movieTracker + ".gif";
+        gifPath = RESOURCEDIR + "/figures/cow" + self.movieTracker + ".gif";
         if "move" in self.movieTracker:
             if "left" in self.lrDirection: 
-                gifPath = resourceDir + "/figures/cowWalkLeft.gif";
+                gifPath = RESOURCEDIR + "/figures/cowWalkLeft.gif";
             elif "right" in self.lrDirection:
-                gifPath = resourceDir + "/figures/cowWalkRight.gif";
+                gifPath = RESOURCEDIR + "/figures/cowWalkRight.gif";
         self.cow.setFileName(gifPath);
         self.cow.start();
         self.cow.loopCount();
@@ -299,8 +305,10 @@ class mainFrame(QWidget):
         self.currLoc[0] = self.currLoc[0]%self.screenGeo.width();
         self.currLoc[1] = max(self.availGeo.y(),\
                               self.currLoc[1]%\
-                              (self.screenGeo.height()-self.cowSize.height()/2));
-        self.move(self.currLoc[0]-self.cowSize.width()/2, self.currLoc[1]);
+                              (self.screenGeo.height()\
+                              -self.cowSize.height()/2));
+        self.move(int(self.currLoc[0]-self.cowSize.width()/2),\
+                  int(self.currLoc[1]));
         if self.lrDirection == "":
             if random() < 0.5:
                 self.lrDirection = "left";
@@ -373,7 +381,7 @@ class mainFrame(QWidget):
     def exitAction(self):
         self.cow.stop();
         self.close();
-
+##############################################################################
 if __name__ == "__main__":
     app = QApplication(sys.argv);
     sphericalCow = mainFrame(None);

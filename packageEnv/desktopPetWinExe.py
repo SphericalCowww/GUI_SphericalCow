@@ -16,7 +16,7 @@ class mainFrame(QWidget):
         super(mainFrame, self).__init__(parent);
         self.setWindowFlags(Qt.FramelessWindowHint);
         self.setAttribute(Qt.WA_TranslucentBackground);
-        self.cowSize = QSize(200*1.21, 200);
+        self.cowSize = QSize(int(200*1.21), int(200));
         self.setFixedSize(self.cowSize*1.2);
         self.screenGeo = QDesktopWidget().screenGeometry();
         self.availGeo  = QDesktopWidget().availableGeometry();
@@ -24,7 +24,7 @@ class mainFrame(QWidget):
         randH = random()*0.4 + 0.3;
         self.currLoc = [self.screenGeo.width()*randW, \
                         self.screenGeo.height()*randH];
-        self.move(self.currLoc[0], self.currLoc[1]);
+        self.move(int(self.currLoc[0]), int(self.currLoc[1]));
         self.keyPool = [Qt.Key_Left, Qt.Key_Right,
                         Qt.Key_Up, Qt.Key_Down,
                         Qt.Key_S, Qt.Key_P,
@@ -304,7 +304,8 @@ class mainFrame(QWidget):
         self.currLoc[1] = max(self.availGeo.y(),\
                               self.currLoc[1]%\
                               (self.screenGeo.height()-self.cowSize.height()/2));
-        self.move(self.currLoc[0]-self.cowSize.width()/2, self.currLoc[1]);
+        self.move(int(self.currLoc[0]-self.cowSize.width()/2),\
+                  int(self.currLoc[1]));
         if self.lrDirection == "":
             if random() < 0.5:
                 self.lrDirection = "left";
