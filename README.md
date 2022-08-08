@@ -1,5 +1,7 @@
 # Spherical Cow Desktop Pet
 
+https://user-images.githubusercontent.com/55116073/141663986-5da4c3d9-5049-4b37-927a-5fabdf7f98fd.mov
+
 ### Starting the program:
 Double click SphericalCowMac in a mac computer or double click SphericalCowWindows in a windows computer to start the program. To run it with python, go to package/ and do:
 
